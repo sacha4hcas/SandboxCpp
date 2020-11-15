@@ -1,5 +1,5 @@
 #pragma once
-#include "Base_Cell.h"
+#include "Cell.h"
 
 class Sandbox {
 public:
@@ -9,12 +9,26 @@ public:
 	sf::VertexArray cell_vertex;
 	sf::VertexArray grid;
 
+	sf::Image image;
+	sf::Texture texture;
+	sf::Sprite world_sprite;
+
+	int draw_technique = 0;
+	int scan = 0;
+	int scan_technique = 2;
+
 	Sandbox(int w, int h);
-	void swap_cells(Base_Cell*, Base_Cell*);
-	void insert_cell(Base_Cell*, Pos pos);
-	void sync_vertex();
-	void update_cell(Base_Cell*);
+	void swap_cells(Cell*, Cell*);
+	void insert_cell(Cell*, Pos pos);
+	void resync();
+	void update_cell_color(Cell* cell);
+	void update_cell(Cell*);
+	void update_cells_1();
 	void update_cells();
-	Base_Cell* get_cell_by_pixel(Pos pos, float x_scale, float y_scale);
+	void update_cells_2();
+	void update_cells_3();
+	void update_cells_4();
+	void uncheck_cells();
+	Cell* get_cell_by_pixel(Pos pos, float x_scale, float y_scale);
 	void scale_to(int, int);
 };

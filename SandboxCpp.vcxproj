@@ -179,20 +179,32 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Base_Cell.cpp" />
+    <ClCompile Include="Cell.cpp" />
+    <ClCompile Include="Air_Cell.cpp" />
+    <ClCompile Include="Gazeous_Cell.cpp" />
+    <ClCompile Include="Lava_Cell.cpp" />
+    <ClCompile Include="Liquid_Cell.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Sandbox.cpp" />
     <ClCompile Include="Sand_Cell.cpp" />
     <ClCompile Include="Simulation.cpp" />
-    <ClCompile Include="Str.cpp" />
+    <ClCompile Include="Solid_Cell.cpp" />
+    <ClCompile Include="Stone_Cell.cpp" />
+    <ClCompile Include="utils.cpp" />
     <ClCompile Include="Water_Cell.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Base_Cell.h" />
+    <ClInclude Include="Cell.h" />
+    <ClInclude Include="Air_Cell.h" />
+    <ClInclude Include="Gazeous_Cell.h" />
+    <ClInclude Include="Lava_Cell.h" />
+    <ClInclude Include="Liquid_Cell.h" />
     <ClInclude Include="Sandbox.h" />
     <ClInclude Include="Sand_Cell.h" />
     <ClInclude Include="Simulation.h" />
-    <ClInclude Include="Str.h" />
+    <ClInclude Include="Solid_Cell.h" />
+    <ClInclude Include="Stone_Cell.h" />
+    <ClInclude Include="utils.h" />
     <ClInclude Include="Types_Declarations.h" />
     <ClInclude Include="Water_Cell.h" />
   </ItemGroup>

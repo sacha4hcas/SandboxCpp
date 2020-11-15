@@ -2,19 +2,8 @@
 
 //**************** Water_Cell method definition **********************//
 Water_Cell::Water_Cell(Sandbox* sandbox, Pos pos) :
-	Base_Cell::Base_Cell(sandbox, pos) {
-	mass = 0.2;
-}
-
-void Water_Cell::update()
-{
-	if (sink_into(get_cell(0, 1))) return;
-	int x = 1;
-	if (rand() % 100 < 50) x = -1;
-	if (sink_into(get_cell(x, 1))) return;
-	if (sink_into(get_cell(-x, 1))) return;
-	if (sink_into(get_cell(x, 0))) return;
-	if (sink_into(get_cell(-x, 0))) return;
+	Liquid_Cell::Liquid_Cell(sandbox, pos) {
+	density = 1;
 }
 
 sf::Color Water_Cell::get_color()
@@ -25,4 +14,9 @@ sf::Color Water_Cell::get_color()
 std::string Water_Cell::str()
 {
 	return "2";
+}
+
+void Water_Cell::check()
+{
+	checked = true;
 }

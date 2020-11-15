@@ -4,7 +4,7 @@
 
 int main()
 {
-	Simulation(new Sandbox(1000, 500), 1600, 800, 10000).run();
+	Simulation(new Sandbox(400, 200), 1600, 800, 144).run();
 
 	return 0;
 }

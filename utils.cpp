@@ -1,5 +1,5 @@
-#include "Str.h"
-#include "Base_Cell.h"
+#include "utils.h"
+#include "Cell.h"
 
 //**************** Str func **********************//
 std::string str(Cell_Matrix& cell_array) {

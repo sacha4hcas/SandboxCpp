@@ -18,9 +18,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Base_Cell.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Water_Cell.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -33,15 +30,33 @@
     <ClCompile Include="Simulation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Str.cpp">
+    <ClCompile Include="Lava_Cell.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Liquid_Cell.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Solid_Cell.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Gazeous_Cell.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Stone_Cell.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Air_Cell.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Cell.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Types_Declarations.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Base_Cell.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Sand_Cell.h">
@@ -56,7 +71,28 @@
     <ClInclude Include="Simulation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Str.h">
+    <ClInclude Include="Lava_Cell.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Liquid_Cell.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Solid_Cell.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Gazeous_Cell.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Stone_Cell.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Air_Cell.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Cell.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

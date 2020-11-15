@@ -1,5 +1,6 @@
 #include "Sandbox.h"
-
+#include <iostream>
+#include "Air_Cell.h"
 
 using namespace std;
 
@@ -12,61 +13,93 @@ grid(sf::VertexArray(sf::Lines, 2 * w + 2 * h))
 
 	for (int i = 0; i < w; i++)
 		for (int j = 0; j < h; j++)
-			cell_array[i][j] = new Base_Cell(this, Pos(i, j));
+			cell_array[i][j] = new Air_Cell(this, Pos(i, j));
 
 	int k = 0;
 	scale_to(w, h);
+
+	image.create(w, h);
+	texture.loadFromImage(image);
+	texture.setSmooth(true);
+	world_sprite.setTexture(texture);
 }
 
-void Sandbox::swap_cells(Base_Cell* cell1, Base_Cell* cell2) {
-	Base_Cell* temp = cell1;
+void Sandbox::swap_cells(Cell* cell1, Cell* cell2) {
+	Cell* temp = cell1;
 	cell_array[cell1->x][cell1->y] = cell2;
 	cell_array[cell2->x][cell2->y] = temp;
 	swap(cell1->x, cell2->x);
 	swap(cell1->y, cell2->y);
 
-	cell1->update_color(this->cell_vertex, this->h);
-	cell2->update_color(this->cell_vertex, this->h);
+	cell1->check();
+	cell2->check();
+
+	update_cell_color(cell1);
+	update_cell_color(cell2);
 }
 
-void Sandbox::insert_cell(Base_Cell* cell, Pos pos)
+
+void Sandbox::insert_cell(Cell* cell, Pos pos)
 {
 	cell->x = pos.x;
 	cell->y = pos.y;
 	cell->sandbox = this;
+	delete cell_array[pos.x][pos.y];
 	cell_array[pos.x][pos.y] = cell;
-	cell->update_color(this->cell_vertex, this->h);
+	update_cell_color(cell);
 }
 
-void Sandbox::sync_vertex()
+void Sandbox::resync()
 {
 	for (auto& cells : cell_array)
 		for (auto cell : cells)
-			cell->update_color(cell_vertex, this->h);
+			update_cell_color(cell);
 }
 
-void Sandbox::update_cell(Base_Cell* cell)
-{
-	if (!cell->checked) {
-		cell->update();
-		cell->checked = true;
+void Sandbox::update_cell_color(Cell* cell) {
+	switch (draw_technique) {
+	case 0:
+		cell->update_color(cell_vertex, h);
+		break;
+	case 1:
+		cell->update_color(image, h);
+		break;
 	}
 }
 
-void Sandbox::update_cells()
+void Sandbox::update_cell(Cell* cell)
 {
-	int rand = std::rand() % 101;
-	if (rand > 75) {
+	if (!cell->checked) {
+		cell->update();
+	}
+}
+
+void Sandbox::update_cells() {
+	switch (scan_technique) {
+	case 0: update_cells_1();
+		break;
+	case 1: update_cells_2();
+		break;
+	case 2: update_cells_3();
+		break;
+	}
+}
+
+void Sandbox::update_cells_1()
+{
+	int cycle = scan++ % 4;
+
+	if (cycle == 0) {
 		for (auto it = cell_array.begin(); it != cell_array.end(); it++)
 			for (auto jt = it->begin(); jt != it->end(); jt++)
 				update_cell((*jt));
 	}
-	else if (rand > 50) {
+	else if (cycle == 1) {
 		for (auto it = cell_array.begin(); it != cell_array.end(); it++)
 			for (auto jt = it->rbegin(); jt != it->rend(); jt++)
 				update_cell((*jt));
 	}
-	else if (rand > 25) {
+	else if (cycle == 2) {
 		for (auto it = cell_array.rbegin(); it != cell_array.rend(); it++)
 			for (auto jt = it->begin(); jt != it->end(); jt++)
 				update_cell((*jt));
@@ -77,12 +110,70 @@ void Sandbox::update_cells()
 				update_cell((*jt));
 	}
 
+	uncheck_cells();
+}
+
+void Sandbox::update_cells_2()
+{
+	int cycle = scan++ % 2;
+	if (cycle == 0) {
+		for (auto it = cell_array.begin(); it != cell_array.end(); it++)
+			for (auto jt = it->begin(); jt != it->end(); jt++)
+				update_cell((*jt));
+	}
+	else {
+		for (auto it = cell_array.begin(); it != cell_array.end(); it++)
+			for (auto jt = it->rbegin(); jt != it->rend(); jt++)
+				update_cell((*jt));
+	}
+	uncheck_cells();
+}
+
+void Sandbox::update_cells_3()
+{
+	int cycle = scan++ % 2;
+	if (cycle == 0) {
+		for (auto it = cell_array.begin(); it != cell_array.end(); it++)
+			for (auto jt = it->begin(); jt != it->end(); jt++)
+				update_cell((*jt));
+	}
+	else if (cycle == 2) {
+		for (auto it = cell_array.rbegin(); it != cell_array.rend(); it++)
+			for (auto jt = it->begin(); jt != it->end(); jt++)
+				update_cell((*jt));
+	}
+	uncheck_cells();
+}
+
+void Sandbox::update_cells_4() {
+	int i = 0;
+	int j = 0;
+	
+	int checked_i = 0;
+	int checked_j = 1;
+
+	int cycle_ij = 0;
+
+	while (true) {
+		if (cycle_ij % 2 == 0)
+			for (i=checked_i;i<w;i++)
+				update_cell(cell_array[i][j]);
+		
+		else
+			for (j = checked_j; j < h; j++)
+				update_cell(cell_array[i][j]);
+
+		cycle_ij++;
+	}
+}
+
+void Sandbox::uncheck_cells() {
 	for (auto& cells : cell_array)
 		for (auto cell : cells)
 			cell->checked = false;
 }
 
-Base_Cell* Sandbox::get_cell_by_pixel(Pos pos, float x_scale, float y_scale)
+Cell* Sandbox::get_cell_by_pixel(Pos pos, float x_scale, float y_scale)
 {
 	int x_cell = pos.x / x_scale;
 	int y_cell = pos.y / y_scale;
@@ -115,5 +206,7 @@ void Sandbox::scale_to(int _w, int _h)
 		grid[i + w * 2].position = fPos(0, i / 2 * scale_y);
 		grid[i + w * 2 + 1].position = fPos(w * scale_y, i / 2 * scale_y);
 	}
+
+	world_sprite.scale(scale_x, scale_y);
 
 }
